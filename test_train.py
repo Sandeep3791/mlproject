@@ -1,41 +1,28 @@
-"""
-test_train.py
-This module contains tests for ensuring that the model file exists and that the trained model's predictions are correct.
-"""
-
 import os
 import joblib
 import pytest
 from sklearn.linear_model import LinearRegression
-import math
 
+# Test if the model file exists
 def test_model_exists():
-    """
-    Test that the model file 'model.pkl' exists in the working directory.
-    """
     model_file = "model.pkl"
     assert os.path.exists(model_file), f"Model file '{model_file}' not found"
 
+# Test that the model can make accurate predictions
 def test_model_prediction():
-    """
-    Test that the model makes accurate predictions on a simple dataset.
-    A linear regression model is expected to predict a value close to the correct result.
-    """
-    # Prepare a simple dataset
-    x_data = [[1], [2]]
-    y_labels = [1, 2]
+    # Load the trained model
+    model = joblib.load("model.pkl")
 
-    # Train a simple Linear Regression model
-    model = LinearRegression()
-    model.fit(x_data, y_labels)
+    # Test data
+    X_test = [[3]]  # We are testing with a value of 3
+    expected_prediction = 3
 
-    # Test prediction
-    predicted = model.predict([[3]])[0]  # Predicting for input [3]
-    expected = 3  # The expected result is 3 because the relationship is y = x
-    
-    # Use math.isclose to compare predicted and expected values with a tolerance
-    assert math.isclose(predicted, expected, rel_tol=1e-9), f"Expected prediction {expected}, but got {predicted}"
+    # Predict using the model
+    predicted = model.predict(X_test)[0]
 
-# Run the tests if this module is executed directly
+    # Since we are doing simple linear regression with y=x, the prediction should be 3
+    assert abs(predicted - expected_prediction) < 1e-2, f"Expected prediction {expected_prediction}, but got {predicted}"
+
+# Run the tests
 if __name__ == "__main__":
     pytest.main()
