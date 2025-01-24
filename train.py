@@ -1,15 +1,17 @@
+"""Script to train and save the model."""
+
 from sklearn.linear_model import LinearRegression
 import joblib
 
-# Define the main function
 def train_and_save_model():
+    """Train the linear regression model and save it as a file."""
     # Dummy dataset
-    X = [[1], [2], [3], [4], [5]]  # Features
+    x = [[1], [2], [3], [4], [5]]  # Features
     y = [1, 2, 3, 4, 5]            # Labels
 
     # Initialize and train the model
     model = LinearRegression()
-    model.fit(X, y)
+    model.fit(x, y)
 
     # Save the trained model to a file
     model_filename = "model.pkl"
